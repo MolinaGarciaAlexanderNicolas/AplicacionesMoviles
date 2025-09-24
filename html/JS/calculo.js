@@ -1,7 +1,5 @@
 const letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E'];
-
 const numeroDNI = parseInt(prompt("Introduce el número de tu DNI (8 dígitos):"));
-
 const letraDNI = prompt("Introduce la letra de tu DNI:").toUpperCase();
 
 if (numeroDNI < 0 || numeroDNI > 99999999 || isNaN(numeroDNI)) {
