@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 export default function App() {
-  var [entrada, setEntrada] = useState(''); // Todo lo que el usuario escribe
-  var [resultado, setResultado] = useState(''); // Resultado final
+  var [entrada, setEntrada] = useState('');
+  var [resultado, setResultado] = useState(''); 
 
   var presionar = function(valor) {
     if (valor === '=') {
