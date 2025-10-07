@@ -1,80 +1,49 @@
 import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 export default function App() {
-  var [num1, setNum1] = useState('');
-  var [num2, setNum2] = useState('');
-  var [resultado, setResultado] = useState('');
+  var [entrada, setEntrada] = useState(''); // Todo lo que el usuario escribe
+  var [resultado, setResultado] = useState(''); // Resultado final
 
-  var agregarNumero = function(num) {
-    if (!num1 || resultado) {
-      setNum1(num1 + num);
+  var presionar = function(valor) {
+    if (valor === '=') {
+      try {
+        setResultado(eval(entrada).toString());
+      } catch (e) {
+        setResultado('Error');
+      }
+    } else if (valor === 'C') {
+      setEntrada('');
       setResultado('');
     } else {
-      setNum2(num2 + num);
+      setEntrada(entrada + valor);
     }
   };
 
-  var sumar = function() {
-    setResultado(parseFloat(num1) + parseFloat(num2));
-  };
-
-  var restar = function() {
-    setResultado(parseFloat(num1) - parseFloat(num2));
-  };
-
-  var multiplicar = function() {
-    setResultado(parseFloat(num1) * parseFloat(num2));
-  };
-
-  var dividir = function() {
-    if (parseFloat(num2) === 0) setResultado('Error');
-    else setResultado(parseFloat(num1) / parseFloat(num2));
-  };
-
-  var limpiar = function() {
-    setNum1('');
-    setNum2('');
-    setResultado('');
-  };
+  var botones = [
+    ['7','8','9','/'],
+    ['4','5','6','*'],
+    ['1','2','3','-'],
+    ['0','.','=','+'],
+    ['C']
+  ];
 
   return (
     <View style={styles.container}>
-      <Text>Calculadora simple</Text>
+      <Text style={styles.pantalla}>{entrada || '0'}</Text>
+      <Text style={styles.resultado}>{resultado}</Text>
 
-      <Text>Numero 1: {num1}</Text>
-      <Text>Numero 2: {num2}</Text>
-      <Text>Resultado: {resultado}</Text>
-
-      <View style={styles.fila}>
-        <Button title="1" onPress={() => agregarNumero('1')} />
-        <Button title="2" onPress={() => agregarNumero('2')} />
-        <Button title="3" onPress={() => agregarNumero('3')} />
-      </View>
-      <View style={styles.fila}>
-        <Button title="4" onPress={() => agregarNumero('4')} />
-        <Button title="5" onPress={() => agregarNumero('5')} />
-        <Button title="6" onPress={() => agregarNumero('6')} />
-      </View>
-      <View style={styles.fila}>
-        <Button title="7" onPress={() => agregarNumero('7')} />
-        <Button title="8" onPress={() => agregarNumero('8')} />
-        <Button title="9" onPress={() => agregarNumero('9')} />
-      </View>
-      <View style={styles.fila}>
-        <Button title="0" onPress={() => agregarNumero('0')} />
-        <Button title="C" onPress={limpiar} />
-      </View>
-
-      <View style={styles.fila}>
-        <Button title="+" onPress={sumar} />
-        <Button title="-" onPress={restar} />
-        <Button title="*" onPress={multiplicar} />
-        <Button title="/" onPress={dividir} />
-      </View>
-
-      <StatusBar style="auto" />
+      {botones.map(function(fila, i){
+        return (
+          <View key={i} style={styles.fila}>
+            {fila.map(function(btn){
+              return (
+                <Button key={btn} title={btn} onPress={() => presionar(btn)} />
+              );
+            })}
+          </View>
+        );
+      })}
     </View>
   );
 }
@@ -83,11 +52,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    marginTop: 50,
+    marginTop: 50
+  },
+  pantalla: {
+    fontSize: 32,
+    textAlign: 'right',
+    marginBottom: 10
+  },
+  resultado: {
+    fontSize: 24,
+    textAlign: 'right',
+    marginBottom: 20
   },
   fila: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: 5,
-  },
+    marginBottom: 10
+  }
 });
